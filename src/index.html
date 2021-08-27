@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Hello World!</title>
+    <link rel="stylesheet" href="index.css">
+    <script src="./renderer.js"></script>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="heading">TimeCalc</div>
+      <hr>
+      <div class="calc-row">
+        <input id="input-first" class="input" type="text">
+        <div class="action-wrapper set-plus">
+          <div class="option plus"></div>
+          <div class="option minus"></div>
+          <div class="mark"></div>
+        </div>
+        <input id="input-second" class="input" type="text">
+      </div>
+      <div class="history">
+        <div class="record last">
+          <div class="lp">1.</div>
+          <div class="operation">2h 32m + 1h 32m</div>
+          <div class="result">4h 4m</div>
+          <div class="actions">
+            <div class="icon arrow-right"></div>
+          </div>
+        </div>
+        <div class="scroll-section">
+          <div class="record">
+            <div class="lp">2.</div>
+            <div class="operation">1h 3m + 44m</div>
+            <div class="result">1h 47m</div>
+            <div class="actions">
+              <div class="icon arrow-right"></div>
+            </div>
+          </div>
+          <div class="record">
+            <div class="lp">3.</div>
+            <div class="operation">998h 32m + 1h 21m</div>
+            <div class="result">999h 53m</div>
+            <div class="actions">
+              <div class="icon arrow-right"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>
