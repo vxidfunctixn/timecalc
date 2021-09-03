@@ -2,7 +2,7 @@
   "name": "timecalc",
   "productName": "Time Calc",
   "version": "1.0.0",
-  "description": "My Electron application description",
+  "description": "Kalkulator liczący w formacie czasowym",
   "main": "src/index.js",
   "scripts": {
     "start": "electron-forge start",
@@ -11,8 +11,8 @@
     "publish": "electron-forge publish",
     "lint": "echo \"No linting configured\""
   },
-  "keywords": [],
-  "author": "marci",
+  "keywords": ["time", "calculator"],
+  "author": "Marcin Kalinowski",
   "license": "MIT",
   "config": {
     "forge": {
