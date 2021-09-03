@@ -1,53 +1,59 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Hello World!</title>
-    <link rel="stylesheet" href="index.css">
-    <script src="./renderer.js"></script>
-  </head>
-  <body>
-    <div class="wrapper">
-      <div class="heading">TimeCalc</div>
-      <hr>
-      <div class="calc-row">
-        <input id="input-first" class="input" type="text">
-        <div class="action-wrapper set-plus">
-          <div class="option plus"></div>
-          <div class="option minus"></div>
-          <div class="mark"></div>
-        </div>
-        <input id="input-second" class="input" type="text">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Time Calc</title>
+  <link rel="stylesheet" href="../node_modules/simplebar/dist/simplebar.css">
+  <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body tabindex="-1">
+  <div class="title-bar">
+    <div class="title">
+      <img class="icon" src="./icon-small.png">
+      Time Calc
+    </div>
+    <div class="actions">
+      <div class="option help" id="title-bar-help"></div>
+      <div class="option minimize" id="title-bar-minimize"></div>
+      <div class="option close" id="title-bar-close"></div>
+    </div>
+  </div>
+  <div class="wrapper">
+    <div class="error-container" id="error">
+
+    </div>
+    <div class="calc-row">
+      <input id="input-first" placeholder="np. 1h 2m 3s" class="input theme-focus-border" type="text">
+      <div class="action-wrapper" id="operation">
+        <div class="option plus"></div>
+        <div class="option minus"></div>
+        <div class="option multiply"></div>
+        <div class="option divide"></div>
+        <div class="mark theme-background"></div>
       </div>
-      <div class="history">
-        <div class="record last">
-          <div class="lp">1.</div>
-          <div class="operation">2h 32m + 1h 32m</div>
-          <div class="result">4h 4m</div>
-          <div class="actions">
-            <div class="icon arrow-right"></div>
-          </div>
+      <input id="input-second" placeholder="" class="input theme-focus-border" type="text">
+      <div class="action-wrapper one-big">
+        <div class="option result" id="result-button"></div>
+      </div>
+    </div>
+    <div class="history">
+      <div id="first-item">
+        <div class="record info theme-border">
+          Tutaj pojawi się wynik działania
         </div>
-        <div class="scroll-section">
-          <div class="record">
-            <div class="lp">2.</div>
-            <div class="operation">1h 3m + 44m</div>
-            <div class="result">1h 47m</div>
-            <div class="actions">
-              <div class="icon arrow-right"></div>
-            </div>
-          </div>
-          <div class="record">
-            <div class="lp">3.</div>
-            <div class="operation">998h 32m + 1h 21m</div>
-            <div class="result">999h 53m</div>
-            <div class="actions">
-              <div class="icon arrow-right"></div>
-            </div>
-          </div>
+      </div>
+      <div class="scroll-section">
+        <div id="other-items">
+
         </div>
       </div>
     </div>
+  </div>
 
-  </body>
+  <script src="js/renderer.js" type="module"></script>
+  <script src="appFunctions.js" type="module"></script>
+</body>
+
 </html>

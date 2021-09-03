@@ -1,56 +1,83 @@
-const { app, BrowserWindow } = require('electron');
-const path = require('path');
+const { app, BrowserWindow, ipcMain } = require('electron')
+const path = require('path')
+const ipc = ipcMain
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) { // eslint-disable-line global-require
-  app.quit();
+  app.quit()
 }
 
-const createWindow = () => {
-  // Create the browser window.
-  const win = new BrowserWindow({
-    width: 800,
+let helpWindow = null
+const createHelpWindow = () => {
+  if(helpWindow !== null) return
+  helpWindow = new BrowserWindow({
+    width: 450,
     height: 600,
+    title: 'Pomoc',
+    frame: false,
+    resizable: false,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
     }
+  })
+
+  helpWindow.loadFile(path.join(__dirname, 'help.html'))
+
+  helpWindow.on('closed', () => {
+    helpWindow = null;
   });
+}
 
-  // win.removeMenu()
+const createWindow = () => {
+  const win = new BrowserWindow({
+    width: 520,
+    height: 514,
+    title: 'Time Calc',
+    frame: false,
+    resizable: false,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+    }
+  })
 
-  // and load the index.html of the app.
-  win.loadFile(path.join(__dirname, 'index.html'));
+  win.loadFile(path.join(__dirname, 'index.html'))
+  // win.webContents.openDevTools()
 
-  // Open the DevTools.
-  // mainWindow.webContents.openDevTools();
-};
+  ipc.on('closeApp', () => {
+    win.close()
+  })
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
-app.on('ready', createWindow);
+  ipc.on('minimizeApp', () => {
+    win.minimize()
+  })
 
-// Quit when all windows are closed, except on macOS. There, it's common
-// for applications and their menu bar to stay active until the user quits
-// explicitly with Cmd + Q.
+  ipc.on('openHelp', () => {
+    createHelpWindow()
+  })
+
+  ipc.on('closeHelp', () => {
+    helpWindow.close()
+  })
+}
+
+
+app.on('ready', createWindow)
+
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
-    app.quit();
+    app.quit()
   }
-});
+})
 
 app.on('activate', () => {
-  // On OS X it's common to re-create a window in the app when the
-  // dock icon is clicked and there are no other windows open.
   if (BrowserWindow.getAllWindows().length === 0) {
-    createWindow();
+    createWindow()
   }
-});
+})
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and import them here.
-
+// Only dev
 try {
   require('electron-reloader')(module)
 } catch (_) {}

@@ -1,0 +1,624 @@
+$bgColor: rgb(29, 29, 29);
+$titleBarColor: rgb(20, 20, 20);
+$fontColor: white;
+$bgInput: rgb(15, 15, 15);
+$borderColor: rgb(73, 73, 73);
+$headingColor: gray;
+$width: 480px;
+
+// Accents
+$accent: rgb(0, 255, 157);
+
+$colorPlus: rgb(0, 255, 157);
+$colorMinus: rgb(255, 88, 116);
+$colorMultiply: rgb(253, 232, 42);
+$colorDivide: rgb(42, 228, 253);
+
+// Transitions
+$colorTransition: .2s ease-out;
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  margin: 0;
+  background: $bgColor;
+  color: $fontColor;
+  font-size: 16px;
+
+  .theme-font {
+    transition: color $colorTransition;
+  }
+  .theme-border {
+    transition: border-color $colorTransition;
+  }
+  .theme-focus-border:focus {
+    transition: border-color $colorTransition;
+  }
+  .theme-background {
+    transition: background-color $colorTransition;
+  }
+
+  ::selection {
+    background-color: $accent;
+    color: black;
+  }
+}
+
+body[mode=plus] {
+  .theme-font {
+    color: $colorPlus;
+  }
+  .theme-border {
+    border-color: $colorPlus;
+  }
+  .theme-focus-border:focus {
+    border-color: $colorPlus;
+  }
+  .theme-background {
+    background-color: $colorPlus;
+  }
+  ::selection {
+    background-color: $colorPlus;
+    color: black;
+  }
+}
+
+body[mode=minus] {
+  .theme-font {
+    color: $colorMinus;
+  }
+  .theme-border {
+    border-color: $colorMinus;
+  }
+  .theme-focus-border:focus {
+    border-color: $colorMinus;
+  }
+  .theme-background {
+    background-color: $colorMinus;
+  }
+  ::selection {
+    background-color: $colorMinus;
+    color: black;
+  }
+}
+
+body[mode=multiply] {
+  .theme-font {
+    color: $colorMultiply;
+  }
+  .theme-border {
+    border-color: $colorMultiply;
+  }
+  .theme-focus-border:focus {
+    border-color: $colorMultiply;
+  }
+  .theme-background {
+    background-color: $colorMultiply;
+  }
+  ::selection {
+    background-color: $colorMultiply;
+    color: black;
+  }
+}
+
+body[mode=divide] {
+  .theme-font {
+    color: $colorDivide;
+  }
+  .theme-border {
+    border-color: $colorDivide;
+  }
+  .theme-focus-border:focus {
+    border-color: $colorDivide;
+  }
+  .theme-background {
+    background-color: $colorDivide;
+  }
+  ::selection {
+    background-color: $colorDivide;
+    color: black;
+  }
+}
+
+
+.title-bar {
+  display: flex;
+  justify-content: space-between;
+  background: $titleBarColor;
+
+  &.inactive {
+    opacity: 0.5;
+  }
+
+  .title {
+    opacity: 1;
+    padding-left: 20px;
+    height: 35px;
+    color: rgba(white, .7);
+    display: flex;
+    align-items: center;
+    width: 100%;
+    line-height: 35px;
+    user-select: none;
+    -webkit-app-region: drag;
+
+    .icon {
+      width: 24px;
+      height: 24px;
+      margin-right: 4px;
+    }
+  }
+
+  .actions {
+    display: flex;
+
+    .option {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 40px;
+      height: 35px;
+      cursor: pointer;
+      overflow: hidden;
+
+      &:before {
+        display: block;
+        position: relative;
+        z-index: 1;
+      }
+
+      &.help:before {
+        content: "?";
+        font-size: 14px;
+        font-weight: 400;
+      }
+      &.minimize:before {
+        content: "-";
+        font-size: 28px;
+        font-weight: 300;
+      }
+      &.close:before {
+        content: "+";
+        transform: rotate(45deg);
+        font-size: 28px;
+        font-weight: 300;
+        top: -1px;
+        left: 1px;
+      }
+
+      &.close:after {
+        background-color:rgb(255, 24, 62);
+      }
+
+      &:after {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(white, 0.1);
+        will-change: transform;
+        transition: opacity .1s ease-out;
+        opacity: 0;
+        z-index: 0;
+      }
+
+      &:hover:after {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+.wrapper {
+  width: 480px;
+  margin: 20px auto;
+}
+
+.info-content {
+  box-sizing: border-box;
+  padding: 20px;
+  padding-top: 0;
+  height: calc(100vh - 35px);
+  overflow: auto;
+
+  h2 {
+    font-weight: 400;
+    border-bottom: 1px solid $accent;
+    padding-top: 24px;
+    padding-bottom: 12px;
+    margin-top: 0px;
+    margin-bottom: 12px;
+  }
+
+  p {
+    margin: 12px 0;
+  }
+
+  span {
+    background: $bgInput;
+    color: $accent;
+    padding: 4px 8px;
+    display: inline-block;
+    margin: -2px 0;
+    border-radius: 6px;
+    box-shadow: inset 0 0 0 1px darken($accent, 30%);
+    white-space: nowrap;
+    line-height: 1.2em;
+  }
+
+  table {
+    tr {
+      td {
+        padding: 10px;
+
+        &:first-child {
+          line-height: 2em;
+          min-width: 120px;
+        }
+
+        border-bottom: 1px solid darken($accent, 30%);
+      }
+
+      &:last-child {
+        td {
+          border-bottom: none;
+        }
+      }
+    }
+  }
+
+  a {
+    color: $accent;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  small {
+    display: block;
+    padding: 10px;
+    border-radius: 10px;
+    background: $bgInput;
+    color: darken(white, 20%);
+  }
+}
+
+.heading {
+  text-align: center;
+  width: $width;
+  color: $headingColor;
+  font-size: 34px;
+  font-weight: bold;
+}
+
+.calc-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: $width;
+
+  .input {
+    background: $bgInput;
+    border: 4px solid $borderColor;
+    font-size: 16px;
+    padding: 12px;
+    width: 120px;
+    border-radius: 10px;
+    outline: none;
+    color: $fontColor;
+    font-family: inherit;
+  }
+
+  .action-wrapper {
+    display: grid;
+    width: 60px;
+    height: 60px;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    position: relative;
+    border: 1px solid $borderColor;
+    border-radius: 10px;
+    background: $bgInput;
+    overflow: hidden;
+
+    &:before {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+      width: 60px;
+      height: 1px;
+      background: $borderColor;
+      z-index: 0;
+    }
+
+    &:after {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 1px;
+      height: 60px;
+      background: $borderColor;
+      z-index: 0;
+    }
+
+
+    &.one-big {
+      width: 40px;
+      height: 40px;
+
+      &:after, &:before {
+        display: none;
+      }
+
+      .option {
+        width: 40px;
+        height: 40px;
+      }
+    }
+
+    .option {
+      cursor: pointer;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+
+      &:after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background: rgba(white, 0.1);
+        opacity: 0;
+        transition: opacity .1s ease-out;
+      }
+
+      &:hover:after {
+        opacity: 1;
+      }
+
+      &:before {
+        font-size: 16px;
+        position: relative;
+        top: -2px;
+        z-index: 2;
+      }
+
+      &.plus:before {
+        content: "+";
+      }
+
+      &.minus:before {
+        content: "-";
+      }
+
+      &.multiply:before {
+        content: "+";
+        transform: rotate(45deg);
+      }
+
+      &.divide:before {
+        content: "/";
+      }
+
+      &.result:before {
+        content: "=";
+      }
+    }
+
+    .mark {
+      width: 30px;
+      height: 30px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+      pointer-events: none;
+      transition: transform .3s ease-out, background-color $colorTransition;
+      transform: translate(50%, 50%) scale(0);
+    }
+
+    &.set-plus {
+      .option.plus:before {
+        color: $bgInput;
+        font-weight: bold;
+      }
+
+      .mark {
+        transform: translate(0%, 0%) scale(1);
+      }
+    }
+    &.set-minus {
+      .option.minus:before {
+        color: $bgInput;
+        font-weight: bold;
+      }
+
+      .mark {
+        transform: translate(100%, 0%) scale(1);
+      }
+    }
+    &.set-multiply {
+      .option.multiply:before {
+        color: $bgInput;
+        font-weight: bold;
+      }
+
+      .mark {
+        transform: translate(0%, 100%) scale(1);
+      }
+    }
+    &.set-divide {
+      .option.divide:before {
+        color: $bgInput;
+        font-weight: bold;
+      }
+
+      .mark {
+        transform: translate(100%, 100%) scale(1);
+      }
+    }
+
+  }
+}
+
+.icon {
+  width: 16px;
+  height: 16px;
+  position: relative;
+  display: inline-block;
+
+  &.arrow-right {
+    &:before {
+      content: "";
+      position: absolute;
+      display: block;
+      width: 8px;
+      height: 8px;
+      border-right: 2px solid $fontColor;
+      border-bottom: 2px solid $fontColor;
+      transform: translateY(-50%) rotate(-45deg);
+      top: 50%;
+      right: 0;
+    }
+  }
+
+  &:after {
+    content: "";
+    position: absolute;
+    width: 10px;
+    height: 2px;
+    background: $fontColor;
+    top: 8px;
+    right: 0px;
+    transform: translateY(-50%);
+  }
+}
+
+.history {
+  width: $width;
+  margin-top: 24px;
+
+  #first-item {
+    height: 88px;
+  }
+
+  .scroll-section {
+    height: 230px;
+    overflow: auto;
+  }
+
+  .record {
+    display: grid;
+    grid-template-columns: 8% 57% 30% 5%;
+    margin: 12px 0;
+    padding: 12px 24px;
+    background: $bgInput;
+    border-radius: 10px;
+    position: relative;
+    cursor: pointer;
+
+    &.info {
+      grid-template-columns: 1fr;
+      cursor: unset;
+      text-align: center;
+
+      &:before {
+        display: none;
+      }
+    }
+
+    &:before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 10px;
+      background: rgba(white, 0.025);
+      opacity: 0;
+      transition: opacity .1s ease-out;
+      pointer-events: none;
+    }
+
+    &:hover:before {
+      opacity: 1;
+    }
+
+    .icon {
+      top: 2px;
+    }
+
+    .result {
+      font-weight: bold;
+    }
+
+    .actions {
+      text-align: right;
+    }
+
+    .operation {
+      .mode {
+        font-weight: 700;
+        font-size: 1.2em;
+        line-height: 1em;
+
+        &:before {
+          display: inline-block;
+        }
+
+        &.plus:before {
+          content: "+";
+          color: $colorPlus;
+        }
+        &.minus:before {
+          content: "-";
+          color: $colorMinus;
+        }
+        &.multiply:before {
+          content: "+";
+          transform: translateY(2px) rotate(45deg);
+          color: $colorMultiply;
+        }
+        &.divide:before {
+          content: "/";
+          color: $colorDivide;
+        }
+      }
+    }
+  }
+
+  #first-item .record {
+    padding: 32px 24px;
+    margin-top: 0;
+    border-width: 1px;
+    border-style: solid;
+  }
+}
+
+.error-container {
+  border-radius: 10px;
+  margin-bottom: 18px;
+  box-sizing: border-box;
+  height: 16px;
+  color:rgb(253, 232, 42);
+}
+
+
+// Simplebar
+.simplebar-scrollbar::before {
+  background-color: rgba(white, 0.25);
+}
