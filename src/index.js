@@ -69,6 +69,9 @@ const createWindow = () => {
 
   ipc.on('closeApp', () => {
     mainWindow.close()
+    if(helpWindow) {
+      helpWindow.close()
+    }
   })
 
   ipc.on('minimizeApp', () => {

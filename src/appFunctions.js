@@ -35,7 +35,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 	if(authorlink)
 	authorlink.addEventListener('click', () => {
-		shell.openExternal("http://marcin-kalinowski.pl")
+		shell.openExternal("https://marcin-kalinowski.pl")
 	})
 
 	if(titleBarClose)
