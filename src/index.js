@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require('electron')
+const { app, BrowserWindow, ipcMain, dialog, screen } = require('electron')
 const path = require('path')
 const ipc = ipcMain
 
@@ -8,18 +8,32 @@ if (require('electron-squirrel-startup')) { // eslint-disable-line global-requir
 }
 
 let helpWindow = null
+let mainWindow = null
 const createHelpWindow = () => {
-  if(helpWindow !== null) return
+  if(helpWindow !== null) {
+    helpWindow.focus()
+    return
+  }
+  const currentDisplay = screen.getDisplayMatching(mainWindow.getBounds());
   helpWindow = new BrowserWindow({
-    width: 450,
+    width: 520,
     height: 600,
+    x: currentDisplay.bounds.x + 100,
+    y: currentDisplay.bounds.y + 100,
     title: 'Pomoc',
     frame: false,
     resizable: false,
+    show: false,
+    transparent: true,
+    backgroundColor: '#00000000',
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
     }
+  })
+
+  helpWindow.once('ready-to-show', () => {
+    helpWindow.show();
   })
 
   helpWindow.loadFile(path.join(__dirname, 'help.html'))
@@ -30,27 +44,35 @@ const createHelpWindow = () => {
 }
 
 const createWindow = () => {
-  const win = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 520,
-    height: 514,
+    height: 565,
     title: 'Time Calc',
     frame: false,
+    show: false,
+    transparent: true,
+    backgroundColor: '#00000000',
     resizable: false,
     webPreferences: {
       nodeIntegration: true,
-      contextIsolation: false,
+      contextIsolation: false
     }
   })
 
-  win.loadFile(path.join(__dirname, 'index.html'))
-  // win.webContents.openDevTools()
+  mainWindow.once('ready-to-show', () => {
+    mainWindow.show();
+  });
+
+  mainWindow.loadFile(path.join(__dirname, 'index.html'))
+  // mainWindow.webContents.openDevTools()
+
 
   ipc.on('closeApp', () => {
-    win.close()
+    mainWindow.close()
   })
 
   ipc.on('minimizeApp', () => {
-    win.minimize()
+    mainWindow.minimize()
   })
 
   ipc.on('openHelp', () => {
@@ -75,6 +97,21 @@ app.on('activate', () => {
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow()
   }
+})
+
+ipcMain.on('getAppVersion', (event) => {
+  event.returnValue = app.getVersion();
+});
+
+ipc.handle('saveFileDialog', async () => {
+  const options = {
+    title: 'Zapisz do pliku tekstowego',
+    defaultPath: '~/historia.txt',
+    buttonLabel: 'Zapisz',
+    filters: [{ name: 'Pliki tekstowe', extensions: ['txt'] }]
+  }
+  const result = await dialog.showSaveDialog(options)
+  return result.filePath
 })
 
 // Only dev

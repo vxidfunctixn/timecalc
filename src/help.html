@@ -9,101 +9,107 @@
 </head>
 
 <body tabindex="-1">
-  <div class="title-bar">
-    <div class="title">
-      <img class="icon" src="./icon-small.png">
-      Pomoc
+  <div class="app-wrapper">
+    <div class="title-bar">
+      <div class="title">
+        <img class="icon" src="./icon-small.png">
+        Pomoc
+      </div>
+      <div class="actions">
+        <div class="option close" id="title-bar-close-help"></div>
+      </div>
     </div>
-    <div class="actions">
-      <div class="option close" id="title-bar-close-help"></div>
+    <div class="info-content" data-simplebar>
+      <p>
+        TimeCalc to kalkulator działający w formacie czasowym. Pozwala szybko i wygodnie zliczyć segmenty czasowe lub wyznaczyć je z podanego czasu.
+      </p>
+      <h2>Wprowadzanie danch</h2>
+      <p>Godzinę można wprowadzać na 2 sposoby:</p>
+      <p>
+        <b>1.</b> <span>{godzina}h {minuta}m {sekunda}s</span> zamiast litery <span>h</span> można użyć <span>g</span>. Wielkość liter nie ma znaczenia. Kolejność wpisywanych danych w tym sposobie zapisu również nie ma znaczenia. Jedyna reguła jest taka, że litera zawsze musi być za cyfrą. Inne wpisane znaki są pomijane. Segmenty o wartości zerowej można pominąć. np.: <span>34m 2s</span>
+      </p>
+      <p>
+        <b>2.</b> <span>{godzina}:{minuta}:{sekunda}</span> to skrócony zapis jednak wymaga aby wartości zerowe były wpisane jeśli są przed niezerową wartością. np.: <span>0:14</span>
+      </p>
+      <p>
+        Przy dzieleniu i mnożeniu jako drugą wartość należy wpisać zwykłą liczbę, może być z ułamkiem. Zamiast przecinka należy wpisać kropkę.
+      </p>
+
+      <h2>Skróty klawiszowe</h2>
+      <table>
+        <tr>
+          <td>
+            <span> = </span> lub <span> Enter </span>
+          </td>
+          <td>
+            Gdy jest aktywny input, wykonuje działanie.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span> Tab </span>
+          </td>
+          <td>
+            Przełącza między inputami.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span> + </span>
+          </td>
+          <td>
+            Przełącza w tryb dodawania.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span> - </span><span>[Num]</span> lub <span> Shift </span> + <span> - </span>
+          </td>
+          <td>
+            Przełącza w tryb tryb odejmowania. Minus działa tylko na klawiaturze numerycznej. Jeśli nie posiadasz klawiatury numerycznej, należy kliknąć minus z shiftem.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span> * </span>
+          </td>
+          <td>
+            Przełącza w tryb mnożenia.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <span> / </span>
+          </td>
+          <td>
+            Przełącza w tryb dzielenia.
+          </td>
+        </tr>
+      </table>
+
+      <h2>Pamięć historii</h2>
+      <p>
+        Historia jest na bieżąco zapisywana. Przy uruchomieniu aplikacji zostanie wczytany ostatni stan historii. Możesz również zapisać aktualny stan historii do pliku tekstowego korzystając z opcji <span>Eksportuj do pliku</span>. Historię można również w każdym momencie wyczyścić klikając w przycisk <span>Wyczyść historię</span>
+      </p>
+
+      <h2>Podpowiedzi</h2>
+      <p>
+        Po wykonaniu działania, w pierwszym inpucie pojawia się jego wynik.
+      </p>
+      <p>
+        Klikając na rekord w historii działań, wprowadzany jest w pierwszym inpucie jego wynik oraz ustawiany tryb w jakim było wykonywane to działanie.
+      </p>
+
+      <h2>Informacje</h2>
+      <small>
+        TimeCalc <br>
+        Wersja: <span id="appVersion"></span> <br>
+        Autor: Marcin Kalinowski <br>
+        Strona autora: <a id="authorlink">marcin-kalinowski.pl</a>
+      </small>
+
     </div>
   </div>
-  <div class="info-content" data-simplebar>
-    <p>
-      TimeCalc to kalkulator działający w formacie czasowym. Pozwala szybko i wygodnie zliczyć segmenty czasowe lub wyznaczyć je z podanego czasu.
-    </p>
-    <h2>Wprowadzanie danch</h2>
-    <p>Godzinę można wprowadzać na 2 sposoby:</p>
-    <p>
-      <b>1.</b> <span>{godzina}h {minuta}m {sekunda}s</span> zamiast litery <span>h</span> można użyć <span>g</span>. Wielkość liter nie ma znaczenia. Kolejność wpisywanych danych w tym sposobie zapisu również nie ma znaczenia. Jedyna reguła jest taka, że litera zawsze musi być za cyfrą. Inne wpisane znaki są pomijane. Segmenty o wartości zerowej można pominąć. np.: <span>34m 2s</span>
-    </p>
-    <p>
-      <b>2.</b> <span>{godzina}:{minuta}:{sekunda}</span> to skrócony zapis jednak wymaga aby wartości zerowe były wpisane jeśli są przed niezerową wartością. np.: <span>0:14</span>
-    </p>
-    <p>
-      Przy dzieleniu i mnożeniu jako drugą wartość można należy wpisać zwykłą liczbę, może być z ułamkiem. Zamiast przecinka należy wpisać kropkę.
-    </p>
-
-    <h2>Skróty klawiszowe</h2>
-    <table>
-      <tr>
-        <td>
-          <span> = </span> lub <span> Enter </span>
-        </td>
-        <td>
-          Gdy jest aktywny input wykonuje działanie
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <span> Tab </span>
-        </td>
-        <td>
-          Przełącza między inputami
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <span> + </span>
-        </td>
-        <td>
-          Przełącza w tryb dodawania
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <span> - </span><span>[Num]</span> lub <span> Shift </span> + <span> - </span>
-        </td>
-        <td>
-          Przełącza w tryb tryb odejmowania. Minus działa tylko na klawiaturze numerycznej. Bez niej należy kliknąć minus z shiftem
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <span> * </span>
-        </td>
-        <td>
-          Przełącza w tryb mnożenia
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <span> / </span>
-        </td>
-        <td>
-          Przełącza w tryb dzielenia
-        </td>
-      </tr>
-    </table>
-
-    <h2>Podpowiedzi</h2>
-    <p>
-      Po wykonaniu działania, w pierwszym inpucie pojawia się jego wynik
-    </p>
-    <p>
-      Klikajć na rekord w historii działań, wprowadzany jest w pierwszy inpucie jego wynik oraz ustawiany tryb w jakim było wykonywane to działanie
-    </p>
-
-    <h2>Informacje</h2>
-    <small>
-      TimeCalc <br>
-      Wersja: 1.0 <br>
-      Autor: Marcin Kalinowski <br>
-      Strona autora: <a id="authorlink">marcin-kalinowski.pl</a>
-    </small>
-
-  </div>
-
   <script src="../node_modules/simplebar/dist/simplebar.js" type="module"></script>
   <script src="appFunctions.js" type="module"></script>
 </body>

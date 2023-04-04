@@ -4,16 +4,39 @@ import {
   MODE_VALUES
 } from './modules/defines.js'
 import Time from './modules/time.js'
+const fs = require('fs')
+const os = require('os')
+const path = require('path')
 
 class calc {
   constructor() {
     this.el = this.getElements()
     this.setOperationMode(MODE.PLUS)
-    this.history = []
-    this.historyLastId = 1
+    this.history = this.loadHistory()
+    this.historyLastId = this.history.length + 1
     this.initEvents()
     this.simplebar = new SimpleBar(this.el.scrollSection)
     this.activeInput = 0
+    this.updateHistoryList()
+  }
+
+  loadHistory() {
+    const documentsPath = path.join(os.homedir(), 'Documents', 'timecalc');
+    const filePath = path.join(documentsPath, 'history.json');
+
+    try {
+      if (fs.existsSync(filePath)) {
+        const historyData = fs.readFileSync(filePath);
+        return JSON.parse(historyData);
+      } else {
+        console.warn("History file does not exist: " + filePath);
+        return [];
+      }
+    } catch (err) {
+      console.error("Failed to load history file: " + filePath);
+      console.error(err);
+      return [];
+    }
   }
 
   initEvents() {
@@ -37,6 +60,15 @@ class calc {
         this.el.firstInput.focus()
         e.preventDefault()
       }
+    })
+    this.el.historyClear.addEventListener('click', () => {
+      this.history = []
+      this.historyLastId = 1
+      this.updateHistoryList()
+      window.dispatchEvent(new CustomEvent('saveHistory', { detail: [] }));
+    })
+    this.el.historyExport.addEventListener('click', () => {
+      window.dispatchEvent(new CustomEvent('saveHistoryToText', { detail: this.history }));
     })
   }
 
@@ -85,6 +117,9 @@ class calc {
       historyFirst: document.getElementById('first-item'),
       historyOther: document.getElementById('other-items'),
       scrollSection: document.querySelector('.scroll-section'),
+      // History options
+      historyClear: document.querySelector('#clear-history'),
+      historyExport: document.querySelector('#export-history'),
       // Error
       errorContainer: document.getElementById('error')
     }
@@ -129,12 +164,15 @@ class calc {
     const operationStr = `<span class="mode ${operation}"></span>`
     const operationFullStr = `<span>${time1Str}</span> ${operationStr} <span>${time2Str}</span>`
     const resultStr = this.timeStringify(result)
+    const operationChar = this.operationStringify(operation)
+    const operationFileStr = `${this.historyLastId}. ${time1Str} ${operationChar} ${time2Str} = ${resultStr}`
 
     this.history.unshift({
       id: this.historyLastId,
       strings: {
         operation: operationFullStr,
-        result: resultStr
+        result: resultStr,
+        textNotation: operationFileStr
       },
       values: {
         time1,
@@ -143,21 +181,32 @@ class calc {
         operation,
       }
     })
+
     this.updateHistoryList()
     this.fromHistory(this.historyLastId)
     this.historyLastId ++
+
+    window.dispatchEvent(new CustomEvent('saveHistory', { detail: this.history }));
   }
 
   updateHistoryList() {
     let list = ``
-    this.history.map((element, index) => {
-      const {strings: {operation, result}, id} = element
-      if(index === 0) {
-        this.el.historyFirst.innerHTML = this.historyItemTemplate(operation, result, id, 'theme-border')
-      } else {
-        list += this.historyItemTemplate(operation, result, id)
-      }
-    })
+    if(this.history.length == 0) {
+      this.el.historyFirst.innerHTML = this.historyStartTemplate()
+      this.el.historyClear.classList.add('disabled')
+      this.el.historyExport.classList.add('disabled')
+    } else {
+      this.history.map((element, index) => {
+        const {strings: {operation, result}, id} = element
+        if(index === 0) {
+          this.el.historyFirst.innerHTML = this.historyItemTemplate(operation, result, id, 'theme-border')
+        } else {
+          list += this.historyItemTemplate(operation, result, id)
+        }
+      })
+      this.el.historyClear.classList.remove('disabled')
+      this.el.historyExport.classList.remove('disabled')
+    }
     this.el.historyOther.innerHTML = list
     this.simplebar.recalculate()
   }
@@ -171,6 +220,14 @@ class calc {
       <div class="actions">
         <div class="icon arrow-right"></div>
       </div>
+    </div>
+    `
+  }
+
+  historyStartTemplate() {
+    return `
+    <div class="record info theme-border">
+      Tutaj pojawi się wynik działania
     </div>
     `
   }
@@ -192,7 +249,16 @@ class calc {
       if(time.hours !== 0) string += `${time.hours}h `
       if(time.minutes > 0) string += `${time.minutes}m `
       if(time.seconds > 0) string += `${time.seconds}s`
-      return string
+      return string.trim()
+    }
+  }
+
+  operationStringify(operation) {
+    switch(operation) {
+      case MODE.PLUS: return '+'
+      case MODE.MINUS: return '-'
+      case MODE.MULTIPLY: return '*'
+      case MODE.DIVIDE: return '/'
     }
   }
 

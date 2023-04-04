@@ -17,12 +17,29 @@ $colorDivide: rgb(42, 228, 253);
 // Transitions
 $colorTransition: .2s ease-out;
 
+*, *:before, *:after {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: subpixel-antialiased;
+  transform: translate3d(0, 0, 0) scale(1, 1);
+  zoom: 1;
+}
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   margin: 0;
   background: $bgColor;
+  background: transparent;
   color: $fontColor;
   font-size: 16px;
+  -webkit-transform: translateZ(0);
+          transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
 
   .theme-font {
     transition: color $colorTransition;
@@ -41,6 +58,15 @@ body {
     background-color: $accent;
     color: black;
   }
+}
+
+.app-wrapper {
+  background-color: $bgColor;
+  height: calc(100vh - 2px);
+  width: calc(100vw - 2px);
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid $borderColor;
 }
 
 body[mode=plus] {
@@ -125,10 +151,6 @@ body[mode=divide] {
   justify-content: space-between;
   background: $titleBarColor;
 
-  &.inactive {
-    opacity: 0.5;
-  }
-
   .title {
     opacity: 1;
     padding-left: 20px;
@@ -165,6 +187,7 @@ body[mode=divide] {
         display: block;
         position: relative;
         z-index: 1;
+        color: white;
       }
 
       &.help:before {
@@ -210,7 +233,29 @@ body[mode=divide] {
       }
     }
   }
+
+
+  &.inactive {
+    background: rgba($titleBarColor, 0.5);
+
+    .title {
+      color: rgba(white, .4);
+    }
+
+    .option {
+      &::before {
+        color: rgba(white, .4);
+      }
+
+      &:hover {
+        &::before {
+          color: white;
+        }
+      }
+    }
+  }
 }
+
 
 .wrapper {
   width: 480px;
@@ -235,12 +280,13 @@ body[mode=divide] {
 
   p {
     margin: 12px 0;
+    line-height: 1.5em;
   }
 
   span {
     background: $bgInput;
     color: $accent;
-    padding: 4px 8px;
+    padding: 4px 8px 4px 8px;
     display: inline-block;
     margin: -2px 0;
     border-radius: 6px;
@@ -250,13 +296,15 @@ body[mode=divide] {
   }
 
   table {
+    border-collapse: collapse;
+
     tr {
       td {
-        padding: 10px;
+        padding: 10px 0;
 
         &:first-child {
           line-height: 2em;
-          min-width: 120px;
+          min-width: 150px;
         }
 
         border-bottom: 1px solid darken($accent, 30%);
@@ -304,7 +352,7 @@ body[mode=divide] {
     border: 4px solid $borderColor;
     font-size: 16px;
     padding: 12px;
-    width: 120px;
+    width: 162px;
     border-radius: 10px;
     outline: none;
     color: $fontColor;
@@ -406,7 +454,12 @@ body[mode=divide] {
 
       &.multiply:before {
         content: "+";
-        transform: rotate(45deg);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        -webkit-transform: translateZ(0) rotate(45deg);
+                transform: translateZ(0) rotate(45deg) scale(1.1);
+        -webkit-backface-visibility: hidden;
+                backface-visibility: hidden;
       }
 
       &.divide:before {
@@ -419,8 +472,8 @@ body[mode=divide] {
     }
 
     .mark {
-      width: 30px;
-      height: 30px;
+      width: 28px;
+      height: 28px;
       position: absolute;
       top: 0;
       left: 0;
@@ -437,7 +490,7 @@ body[mode=divide] {
       }
 
       .mark {
-        transform: translate(0%, 0%) scale(1);
+        transform: translate(0.2px, 0.2px) scale(1);
       }
     }
     &.set-minus {
@@ -447,7 +500,7 @@ body[mode=divide] {
       }
 
       .mark {
-        transform: translate(100%, 0%) scale(1);
+        transform: translate(29.8px, 0.2px) scale(1);
       }
     }
     &.set-multiply {
@@ -457,7 +510,7 @@ body[mode=divide] {
       }
 
       .mark {
-        transform: translate(0%, 100%) scale(1);
+        transform: translate(0.2px, 29.8px) scale(1);
       }
     }
     &.set-divide {
@@ -467,7 +520,7 @@ body[mode=divide] {
       }
 
       .mark {
-        transform: translate(100%, 100%) scale(1);
+        transform: translate(29.8px, 29.8px) scale(1);
       }
     }
 
@@ -590,7 +643,12 @@ body[mode=divide] {
         }
         &.multiply:before {
           content: "+";
-          transform: translateY(2px) rotate(45deg);
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+          -webkit-transform: translateY(2px) translateZ(0) rotate(45deg);
+                  transform: translateY(2px) translateZ(0) rotate(45deg) scale(1.1);
+          -webkit-backface-visibility: hidden;
+                  backface-visibility: hidden;
           color: $colorMultiply;
         }
         &.divide:before {
@@ -606,6 +664,53 @@ body[mode=divide] {
     margin-top: 0;
     border-width: 1px;
     border-style: solid;
+  }
+
+  .action-wrapper {
+    display: flex;
+    padding-top: 12px;
+
+    .option {
+      cursor: pointer;
+      position: relative;
+      border: 1px solid $borderColor;
+      border-radius: 10px;
+      background: $bgInput;
+      overflow: hidden;
+      padding: 9.2px 15px;
+      margin-right: 12px;
+      will-change: transform;
+      transition: opacity .1s ease-out;
+
+      &:after {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        background: rgba(white, 0.1);
+        opacity: 0;
+        transition: opacity .1s ease-out;
+      }
+
+      &:hover:after {
+        opacity: 1;
+      }
+
+      &:before {
+        font-size: 16px;
+        position: relative;
+        top: -2px;
+        z-index: 2;
+      }
+
+      &.disabled {
+        opacity: 0.5;
+        pointer-events: none;
+        border-color: $bgInput;
+      }
+    }
   }
 }
 

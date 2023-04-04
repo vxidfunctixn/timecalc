@@ -9,49 +9,54 @@
 </head>
 
 <body tabindex="-1">
-  <div class="title-bar">
-    <div class="title">
-      <img class="icon" src="./icon-small.png">
-      Time Calc
+  <div class="app-wrapper">
+    <div class="title-bar">
+      <div class="title">
+        <img class="icon" src="./icon-small.png">
+        Time Calc
+      </div>
+      <div class="actions">
+        <div class="option help" id="title-bar-help"></div>
+        <div class="option minimize" id="title-bar-minimize"></div>
+        <div class="option close" id="title-bar-close"></div>
+      </div>
     </div>
-    <div class="actions">
-      <div class="option help" id="title-bar-help"></div>
-      <div class="option minimize" id="title-bar-minimize"></div>
-      <div class="option close" id="title-bar-close"></div>
-    </div>
-  </div>
-  <div class="wrapper">
-    <div class="error-container" id="error">
+    <div class="wrapper">
+      <div class="error-container" id="error">
 
-    </div>
-    <div class="calc-row">
-      <input id="input-first" placeholder="np. 1h 2m 3s" class="input theme-focus-border" type="text">
-      <div class="action-wrapper" id="operation">
-        <div class="option plus"></div>
-        <div class="option minus"></div>
-        <div class="option multiply"></div>
-        <div class="option divide"></div>
-        <div class="mark theme-background"></div>
       </div>
-      <input id="input-second" placeholder="" class="input theme-focus-border" type="text">
-      <div class="action-wrapper one-big">
-        <div class="option result" id="result-button"></div>
-      </div>
-    </div>
-    <div class="history">
-      <div id="first-item">
-        <div class="record info theme-border">
-          Tutaj pojawi się wynik działania
+      <div class="calc-row">
+        <input id="input-first" placeholder="np. 1h 2m 3s" class="input theme-focus-border" type="text">
+        <div class="action-wrapper" id="operation">
+          <div class="option plus"></div>
+          <div class="option minus"></div>
+          <div class="option multiply"></div>
+          <div class="option divide"></div>
+          <div class="mark theme-background"></div>
+        </div>
+        <input id="input-second" placeholder="" class="input theme-focus-border" type="text">
+        <div class="action-wrapper one-big">
+          <div class="option result" id="result-button"></div>
         </div>
       </div>
-      <div class="scroll-section">
-        <div id="other-items">
+      <div class="history">
+        <div id="first-item">
+          <div class="record info theme-border">
+            Tutaj pojawi się wynik działania
+          </div>
+        </div>
+        <div class="scroll-section">
+          <div id="other-items">
 
+          </div>
+        </div>
+        <div class="action-wrapper">
+          <div class="option clear disabled" id="clear-history">Wyczyść historię</div>
+          <div class="option export disabled" id="export-history">Eksportuj do pliku</div>
         </div>
       </div>
     </div>
   </div>
-
   <script src="js/renderer.js" type="module"></script>
   <script src="appFunctions.js" type="module"></script>
 </body>
